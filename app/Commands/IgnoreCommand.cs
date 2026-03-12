@@ -1,5 +1,6 @@
 using System.Data.Common;
 using System.Data.SqlClient;
+using System.Collections.Generic;
 
 namespace Verademo.Commands
 {
@@ -23,6 +24,10 @@ namespace Verademo.Commands
             action.CommandText = sqlQuery;
             action.Parameters.Add(new SqlParameter { ParameterName = "@blabber", Value = blabberUsername });
             action.Parameters.Add(new SqlParameter { ParameterName = "@username", Value = username });
+        List<string> allowlistBlabberusername = new List<string>{"item1", "item2", "item3"};
+        blabberUsername = allowlistBlabberusername.Contains(blabberUsername) ?
+                allowlistBlabberusername[allowlistBlabberusername.IndexOf(blabberUsername)] :
+                allowlistBlabberusername[0];
             action.ExecuteNonQuery();
 
             sqlQuery = "SELECT blab_name FROM users WHERE username = '" + blabberUsername + "'";

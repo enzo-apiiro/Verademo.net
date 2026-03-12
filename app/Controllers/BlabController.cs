@@ -92,9 +92,12 @@ namespace Verademo.Controllers
             {
                 dbContext.Database.Connection.Open();
                 var searchBlabs = dbContext.Database.Connection.CreateCommand();
-                searchBlabs.CommandText = string.Format(sqlSearchBlabs, searchText);
-                
-                var searchBlabsResults = searchBlabs.ExecuteReader();
+searchBlabs.CommandText = sqlSearchBlabs;
+var parameter = searchBlabs.CreateParameter();
+parameter.ParameterName = "@searchText";
+parameter.Value = searchText;
+searchBlabs.Parameters.Add(parameter);
+var searchBlabsResults = searchBlabs.ExecuteReader();
                 while (searchBlabsResults.Read())
                 {
                     var post = new BlabSearchResultViewModel
